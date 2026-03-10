@@ -1,0 +1,19 @@
+<!DOCTYPE RCC>
+<RCC>
+  <qresource prefix="/icons">
+    <file>icons/camera.png</file>
+    <file>icons/clap.json</file>
+    <file>icons/heart-grow.json</file>
+    <file>icons/one-hundred.json</file>
+    <file>icons/pause.png</file>
+    <file>icons/play.png</file>
+    <file>icons/reaction.png</file>
+    <file>icons/rec-button.png</file>
+    <file>icons/star-success-transparent.json</file>
+    <file>icons/star.png</file>
+    <file>icons/stop.png</file>
+    <file>icons/clap.png</file>
+    <file>icons/100.png</file>
+    <file>icons/heart.png</file>
+  </qresource>
+</RCC>
