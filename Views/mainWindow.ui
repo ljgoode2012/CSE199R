@@ -6,15 +6,47 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>690</height>
+    <width>1020</width>
+    <height>688</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="5,0">
+   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,5,0">
+    <item alignment="Qt::AlignmentFlag::AlignRight">
+     <widget class="QToolButton" name="toolButton">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="icon">
+       <iconset resource="../resources.qrc">
+        <normaloff>:/icons/icons/thumbnails.png</normaloff>:/icons/icons/thumbnails.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>48</width>
+        <height>48</height>
+       </size>
+      </property>
+      <property name="popupMode">
+       <enum>QToolButton::ToolButtonPopupMode::MenuButtonPopup</enum>
+      </property>
+      <property name="autoRaise">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QSplitter" name="splitter">
       <property name="sizePolicy">
@@ -72,7 +104,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="../build/resources.qrc">
+           <iconset resource="../resources.qrc">
             <normaloff>:/icons/icons/rec-button.png</normaloff>:/icons/icons/rec-button.png</iconset>
           </property>
           <property name="iconSize">
@@ -98,7 +130,7 @@
            <string>...</string>
           </property>
           <property name="icon">
-           <iconset resource="../build/resources.qrc">
+           <iconset resource="../resources.qrc">
             <normaloff>:/icons/icons/camera.png</normaloff>:/icons/icons/camera.png</iconset>
           </property>
           <property name="iconSize">
@@ -106,6 +138,9 @@
             <width>48</width>
             <height>48</height>
            </size>
+          </property>
+          <property name="popupMode">
+           <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
           </property>
           <property name="autoRaise">
            <bool>true</bool>
@@ -130,7 +165,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="../build/resources.qrc">
+           <iconset resource="../resources.qrc">
             <normaloff>:/icons/icons/reaction.png</normaloff>:/icons/icons/reaction.png</iconset>
           </property>
           <property name="iconSize">
@@ -243,7 +278,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../build/resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -9,6 +9,8 @@
 #include <rlottie.h>
 #include <QRadioButton>
 #include <iostream>
+#include "Controllers/GalleryController.h"
+#include "Controllers/PlaybackController.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), 
@@ -32,7 +34,17 @@ MainWindow::MainWindow(QWidget *parent)
     // Subscribe to camera updates
     cameraModel->subscribeToVideo(this);
     cameraModel->subscribeToRecording(this);
-    
+
+    // Build stacked widget with 3 pages (camera=0, gallery=1, playback=2)
+    galleryController  = new GalleryController(fileManager, this);
+    playbackController = new PlaybackController(this);
+    stackedWidget = new QStackedWidget(this);
+    QWidget *cameraPage = takeCentralWidget();
+    stackedWidget->addWidget(cameraPage);         // index 0: camera
+    stackedWidget->addWidget(galleryController);  // index 1: gallery
+    stackedWidget->addWidget(playbackController); // index 2: playback
+    setCentralWidget(stackedWidget);
+
     // Setup button connections
     setupConnections();
     
@@ -51,6 +63,12 @@ void MainWindow::setupConnections()
     // Control buttons
     connect(ui.ButtonRecord, &QToolButton::clicked, this, &MainWindow::onRecordClicked);
     connect(ui.ButtonPicture, &QToolButton::clicked, this, &MainWindow::onCaptureClicked);
+
+    // Gallery / playback navigation
+    connect(ui.toolButton, &QToolButton::clicked, this, &MainWindow::showGallery);
+    connect(galleryController, &GalleryController::videoSelected, this, &MainWindow::showPlayback);
+    connect(galleryController, &GalleryController::backRequested,  this, &MainWindow::showCamera);
+    connect(playbackController, &PlaybackController::backRequested, this, &MainWindow::showGallery);
 }
 
 void MainWindow::onFrameUpdated(const QImage &frame)
@@ -192,10 +210,20 @@ void MainWindow::renderReaction(QImage &image)
     }
 }
 
-// Stub implementations for observer interface (handled by CameraModel now)
-void MainWindow::onVideoFrame(const QVideoFrame &frame) { }
-void MainWindow::toggleRecording() { }
-void MainWindow::snapPicture() { }
-void MainWindow::onRecorderStateChanged(QMediaRecorder::RecorderState state) { }
-void MainWindow::onRecorderError(QMediaRecorder::Error error, const QString &errorString) { }
-void MainWindow::reactToToggle(bool checked) { }
+void MainWindow::showPlayback(const QString &fullpath)
+{
+    playbackController->loadVideo(fullpath);
+    stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::showCamera()
+{
+    stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::showGallery()
+{
+    galleryController->refresh();
+    stackedWidget->setCurrentIndex(1);
+}
+

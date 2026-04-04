@@ -35,7 +35,7 @@ list(APPEND CMAKE_PREFIX_PATH "C:/Qt/6.10.1/msvc2022_64/lib")
 # endif()
 
 # Find Qt (Widgets module for GUI)
-find_package(Qt6 REQUIRED COMPONENTS Widgets UiTools Multimedia Test)
+find_package(Qt6 REQUIRED COMPONENTS Widgets UiTools Multimedia MultimediaWidgets Test)
 
 # Find OpenCV
 find_package(OpenCV REQUIRED)
@@ -61,6 +61,10 @@ qt_add_executable(app
     main.cpp
     Controllers/mainWindow.cpp
     Controllers/mainWindow.h
+    Controllers/GalleryController.cpp
+    Controllers/GalleryController.h
+    Controllers/PlaybackController.cpp
+    Controllers/PlaybackController.h
     Views/mainWindow.ui
     Models/cameraModel.cpp
     Models/cameraModel.h
@@ -85,6 +89,7 @@ target_link_libraries(app PRIVATE
     Qt6::Widgets
     Qt6::UiTools
     Qt6::Multimedia
+    Qt6::MultimediaWidgets
     rlottie
     # ${OpenCV_LIBS}
 )
@@ -110,6 +115,41 @@ target_include_directories(test_FileManager PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(test_FileManager PRIVATE Qt6::Test Qt6::Core)
 
 add_test(NAME FileManagerTests COMMAND test_FileManager)
+
+# Test: PlaybackController
+qt_add_executable(test_PlaybackController
+    Tests/test_PlaybackController.cpp
+    Controllers/PlaybackController.cpp
+    Controllers/PlaybackController.h
+)
+target_include_directories(test_PlaybackController PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(test_PlaybackController PRIVATE UNIT_TEST)
+set_target_properties(test_PlaybackController PROPERTIES
+    AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/Views"
+)
+target_link_libraries(test_PlaybackController PRIVATE
+    Qt6::Test
+    Qt6::Widgets
+    Qt6::Multimedia
+    Qt6::MultimediaWidgets
+)
+add_test(NAME PlaybackControllerTests COMMAND test_PlaybackController)
+
+# Test: GalleryController
+qt_add_executable(test_GalleryController
+    Tests/test_GalleryController.cpp
+    Controllers/GalleryController.cpp
+    Controllers/GalleryController.h
+    Models/FileManager.cpp
+    Models/FileManager.h
+)
+target_include_directories(test_GalleryController PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(test_GalleryController PRIVATE
+    Qt6::Test
+    Qt6::Widgets
+    Qt6::Multimedia
+)
+add_test(NAME GalleryControllerTests COMMAND test_GalleryController)
 
 # Test: CameraModel
 qt_add_executable(test_CameraModel

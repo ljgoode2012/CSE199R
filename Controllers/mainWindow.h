@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QPainter>
 #include <QMutex>
+#include <QStackedWidget>
 #include <memory>
 #include <vector>
 #include <rlottie.h>
@@ -13,6 +14,8 @@
 #include "Models/FileManager.h"
 #include "IObservers.h"
 #include "ui_mainWindow.h"
+#include "Controllers/GalleryController.h"
+#include "Controllers/PlaybackController.h"
 
 class MainWindow : public QMainWindow, 
                    public IVideoObserver,
@@ -31,16 +34,12 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private slots:
-    // Recording mode
     void onEffectChanged();
     void onRecordClicked();
     void onCaptureClicked();
-    void onVideoFrame(const QVideoFrame &frame);
-    void toggleRecording();
-    void snapPicture();
-    void onRecorderStateChanged(QMediaRecorder::RecorderState state);
-    void onRecorderError(QMediaRecorder::Error error, const QString &errorString);
-    void reactToToggle(bool checked);
+    void showPlayback(const QString &fullpath);
+    void showCamera();
+    void showGallery();
 
 private:
     void setupConnections();
@@ -66,6 +65,11 @@ private:
     
     // Recording state
     QString currentRecordingPath;
+
+    // playback feature
+    GalleryController  *galleryController;
+    PlaybackController *playbackController;
+    QStackedWidget *stackedWidget;
 };
 
 #endif
